@@ -1,0 +1,115 @@
+﻿@model IEnumerable<ITSD.Areas.ITSD.Models.tbl_JobOrder>
+
+@{
+    ViewBag.Title = "Cancel";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var user = new PMSRedirect.UserSessions();
+}
+
+<div class="card">
+    <div class="card-header bg-danger text-white">
+        <h6>Cancel request</h6>
+    </div>
+    <div class="card-body">
+        <div class="row row-cols-lg-auto g-1 align-items-center">
+            <div class="col">
+                @using (Html.BeginForm())
+                {
+                    <div class="input-group mb-3">
+                        @Html.TextBox("Search", "", new { @class = "form-control", placeholder = "Keyword", type = "search" })
+                        <input type="submit" value="Search" class="btn btn-secondary" />
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table id="cancel" class="table table-hover table-striped">
+                <thead class="table-danger">
+                    <tr>
+                        <th width="8%">@Html.DisplayNameFor(model => model.ID)</th>
+                        <th width="15%">@Html.DisplayNameFor(model => model.Title)</th>
+                        <th width="9%">@Html.DisplayNameFor(model => model.JDate)</th>
+                        <th width="15%">@Html.DisplayNameFor(model => model.RequestedBy)</th>
+                        <th width="8%">@Html.DisplayNameFor(model => model.Status)</th>
+                        <th width="15%">@Html.DisplayNameFor(model => model.CancelBy)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => item.IDDisplay)</td>
+                            <td>
+                                <a href="#" class="text-decoration-none" data-bs-toggle="tooltip" data-bs-placement="top" title="Click here to show full content" onclick="View(@Json.Encode(item))"><b>@item.Title</b>&nbsp;<i class="fa fa-envelope" aria-hidden="true"></i></a>
+                            </td>
+                            <td>@Html.FormatValue(item.JDate, "{0:MMM dd, yyyy}")</td>
+                            <td>@Html.DisplayFor(modelItem => item.RequestedBy)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Status)</td>
+                            <td>@Html.DisplayFor(modelItem => item.CancelInfo.Info.Fullname)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal modal-xl fade" id="ViewModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <b class="modal-title" id="ModalJO"></b>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <table class="table">
+                    <tr>
+                        <th>Title</th>
+                        <th>Date</th>
+                        <th>Requested By</th>
+                        <th>Encoded By</th>
+
+                    </tr>
+                    <tr>
+                        <td id="ModalTitle"></td>
+                        <td id="ModalDate"></td>
+                        <td id="ModalRB"></td>
+                        <td id="ModalEB"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div id="ModalContent"></div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+
+    <script>
+        $('#cancel').DataTable();
+
+        function View(i) {
+            var item = i;
+            $('#ModalJO').text(item.IDDisplay);
+            $('#ModalTitle').text(item.Title);
+            $('#ModalDate').text(new Date(parseInt(item.JDate.substr(6))).toLocaleDateString());
+            $('#ModalRB').text(item.RequestedBy);
+            $('#ModalEB').text(`${item.encByInfo.Info.Fullname} | ${item.encByInfo.Info.department}`);
+            $('#ModalContent').html(item.JobDescription);
+            $('#ViewModal').modal('show');
+        }
+    </script>
+
+}

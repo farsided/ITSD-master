@@ -1,0 +1,11 @@
+@model ITSD.Areas.AccountManagement.Models.tbl_AccCategory
+@{
+
+}
+
+
+<div class="col-md-12">
+    @Html.LabelFor(model => model.Name)
+    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+</div>

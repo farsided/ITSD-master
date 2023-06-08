@@ -1,0 +1,73 @@
+﻿@model ITSD.Areas.ITSD.Models.tbl_JobOrder
+
+@{
+    ViewBag.Title = "Approved request";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Approve request</h2>
+
+<h3>Are you sure you want to approve this?</h3>
+<div>
+    <h4>Approve</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.JobDescription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.JobDescription)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.JDate)
+        </dt>
+
+        <dd>
+            @Html.FormatValue(Model.JDate, "{0:MMM dd, yyyy}")
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RequestedBy)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RequestedBy)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PriorityDesc)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PriorityDesc)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ATID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ATIDInfo.Info.Fullname)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Approved" class="btn btn-success" /> |
+            @Html.ActionLink("Back to List", "General")
+        </div>
+    }
+</div>

@@ -1,0 +1,126 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+    //debug
+    //var listsched = new ITSD.Areas.ITSD.Models.tbl_Scheduler().List();
+}
+
+<style>
+    .carousel-caption{
+        background-image:linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5));
+        font-weight:bold;
+    }
+</style>
+
+<div class="container">
+    <section style="background-color:lightcyan;">
+        <div class="row p-5">
+            <div class="col-md-6 text-center">
+                <img src="~/Content/img/logo/ITSD.png" alt="Alternate Text" class="rounded-pill" width="65%" />
+            </div>
+            <div class="col-md-6">
+                <div class="d-flex">
+                    <div class="align-middle">
+                        <h1><b>INFORMATION TECHNOLOGY SERVICES DEPARTMENT</b></h1>
+                        <p class="lead">Information technology professionals study, design, develop, implement, support, and manage computer-based information systems, including both software applications and computer hardware.</p>
+                        @Html.ActionLink("Request Job Order", "Create", "JobOrder", new { area = "ITSD" }, new { @class = "btn btn-success" })
+                        @*@Html.ActionLink("Report", "Print", "JobOrder", new { area = "ITSD" }, new { @class = "btn btn-success", target = "_blank" })*@
+                     </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section style="background-color:mintcream;">
+        <div class="p-5">
+            <h2><b>Instruction</b></h2>
+            <h5>How to make a request</h5>
+            <div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                    <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                </div>
+                <div class="carousel-inner">
+                    <div class="carousel-item active" data-bs-interval="10000">
+                        <img src="~/Content/img/Instruction/ins1.png" class="d-block w-100" alt="...">
+                        <div class="carousel-caption d-none d-md-block text-white">
+                            <h5>First</h5>
+                            <p>Click the "Make Request" button</p>
+                        </div>
+                    </div>
+                    <div class="carousel-item" data-bs-interval="10000">
+                        <img src="~/Content/img/Instruction/ins2.png" class="d-block w-100" alt="...">
+                        <div class="carousel-caption d-none d-md-block text-white">
+                            <h5>Second</h5>
+                            <p>Fill-up the title and content of your request</p>
+                        </div>
+                    </div>
+                    <div class="carousel-item" data-bs-interval="10000">
+                        <img src="~/Content/img/Instruction/ins3.png" class="d-block w-100" alt="...">
+                        <div class="carousel-caption d-none d-md-block text-white">
+                            <h5>Third</h5>
+                            <p>Fill-up Date and Requested By field then click the "Create" button</p>
+                        </div>
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </div>
+    </section>
+    <section>
+        <div class="row p-5">
+            <!-- Header -->
+            <header class="bg-primary text-center py-5 mb-4">
+                <div class="container">
+                    <h1 class="fw-light text-white">Meet the Team</h1>
+                </div>
+            </header>
+
+            <!-- Page Content -->
+            <div class="container">
+                <div class="row d-flex justify-content-around">
+                    <!-- Team Member 1 -->
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-0 shadow">
+                            <img src="~/Content/img/Sir Bern.png" class="card-img-top" alt="..." draggable="false">
+                            <div class="card-body text-center">
+                                <h5 class="card-title mb-0">BERNABE L. VICENTE</h5>
+                                <div class="card-text text-black-50">Manager</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Team Member 2 -->
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-0 shadow">
+                            <img src="~/Content/img/adrian 2x2.jpg" class="card-img-top" alt="..." draggable="false">
+                            <div class="card-body text-center">
+                                <h5 class="card-title mb-0">ADRIAN A. JASPIO</h5>
+                                <div class="card-text text-black-50">Programmer</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Team Member 3 -->
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-0 shadow">
+                            <img src="~/Content/img/ejan 2x2.jpg" class="card-img-top" alt="..." draggable="false">
+                            <div class="card-body text-center">
+                                <h5 class="card-title mb-0">EJAN YDNAR DIÑOZO</h5>
+                                <div class="card-text text-black-50">Technical Support</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.row -->
+
+            </div>
+            <!-- /.container -->
+        </div>
+    </section>
+</div>
+

@@ -1,0 +1,50 @@
+﻿@model ITSD.Areas.ITSD.Models.tbl_JobOrder
+
+@{ 
+    var sesssion = new PMSRedirect.UserSessions();
+}
+
+<div class="col-md-12">
+    @Html.LabelFor(model => model.JDate)
+    @Html.EditorFor(model => model.JDate, new { htmlAttributes = new { @class = "form-control" } })
+    @Html.ValidationMessageFor(model => model.JDate, "", new { @class = "text-danger" })
+</div>
+<div class="col-md-12">
+    @Html.LabelFor(model => model.Title)
+    @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control", placeholder = "Insert title here" } })
+    @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+</div>
+
+
+@if (sesssion.Level == 1)
+{
+    <div class="col-md-9">
+        @Html.LabelFor(model => model.Company)
+        @Html.DropDownListFor(model => model.Company, new ITSD.Areas.ITSD.Models.tbl_JobOrder().CompanyList(), new { @class = "form-select" })
+        @Html.ValidationMessageFor(model => model.Company, "", new { @class = "text-danger" })
+    </div>
+    <div class="col-md-3">
+        Auto Initialize
+        @Html.DropDownList("isAuto", new List<SelectListItem> { new SelectListItem { Text = "Yes", Value = "True" }, new SelectListItem { Text = "No", Value = "False" } },"Select", new { @class = "form-select", required = "true" })
+    </div>
+}
+else
+{
+    <div class="col-md-12">
+        @Html.LabelFor(model => model.Company)
+        @Html.DropDownListFor(model => model.Company, new ITSD.Areas.ITSD.Models.tbl_JobOrder().CompanyList(), new { @class = "form-select" })
+        @Html.ValidationMessageFor(model => model.Company, "", new { @class = "text-danger" })
+    </div>
+}
+
+<div class="col-md-12">
+    @Html.TextAreaFor(model => model.JobDescription,30, 10, new { @class = "form-control", placeholder = "Job Description" })
+    @Html.ValidationMessageFor(model => model.JobDescription, "", new { @class = "text-danger" })
+</div>
+
+<div class="col-md-12">
+    @Html.LabelFor(model => model.RequestedBy)
+    @Html.DropDownListFor(model => model.RequestedBy, new ITSD.Areas.ITSD.Models.tbl_JobOrder().GeneralEIS(), new { @class = "form-select" } )
+    @Html.ValidationMessageFor(model => model.RequestedBy, "", new { @class = "text-danger" })
+</div>
+

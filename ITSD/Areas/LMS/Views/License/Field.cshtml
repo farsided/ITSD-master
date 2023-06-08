@@ -1,0 +1,25 @@
+@model ITSD.Areas.LMS.Models.tbl_LMS
+@{
+
+}
+
+<div class="col-md-12">
+    @Html.LabelFor(model => model.Software)
+    @Html.EditorFor(model => model.Software, new { htmlAttributes = new { @class = "form-control" } })
+    @Html.ValidationMessageFor(model => model.Software, "", new { @class = "text-danger" })
+</div>
+<div class="col-md-12">
+    @Html.LabelFor(model => model.Key)
+    @Html.EditorFor(model => model.Key, new { htmlAttributes = new { @class = "form-control" } })
+    @Html.ValidationMessageFor(model => model.Key, "", new { @class = "text-danger" })
+</div>
+<div class="col-md-12">
+    @Html.LabelFor(model => model.Reference)
+    @Html.EditorFor(model => model.Reference, new { htmlAttributes = new { @class = "form-control" } })
+    @Html.ValidationMessageFor(model => model.Reference, "", new { @class = "text-danger" })
+</div>
+<div class="col-md-12">
+    @Html.LabelFor(model => model.Remarks)
+    @Html.EditorFor(model => model.Remarks, new { htmlAttributes = new { @class = "form-control" } })
+    @Html.ValidationMessageFor(model => model.Remarks, "", new { @class = "text-danger" })
+</div>

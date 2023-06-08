@@ -1,0 +1,33 @@
+@model ITSD.Areas.ITSD.Models.tbl_Scheduler
+@{
+    var session = new PMSRedirect.UserSessions();
+}
+
+<div class="col-md-12">
+    @Html.LabelFor(model => model.Title)
+    @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+    @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+</div>
+<div class="col-md-12">
+    @Html.LabelFor(model => model.Description)
+    @Html.TextAreaFor(model => model.Description, 4, 4, new { @class = "form-control" })
+    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+</div>
+<div class="col-md-12">
+    @Html.LabelFor(model => model.Start)
+    @Html.EditorFor(model => model.Start, new { htmlAttributes = new { @class = "form-control" } })
+    @Html.ValidationMessageFor(model => model.Start, "", new { @class = "text-danger" })
+</div>
+<div class="col-md-12">
+    @Html.LabelFor(model => model.End)
+    @Html.EditorFor(model => model.End, new { htmlAttributes = new { @class = "form-control" } })
+    @Html.ValidationMessageFor(model => model.End, "", new { @class = "text-danger" })
+</div>
+@if (session.Level == 1 || session.Level == 2)
+{
+    <div class="col-md-12">
+        @Html.LabelFor(model => model.Active)
+        @Html.DropDownListFor(model => model.Active, new List<SelectListItem> { new SelectListItem { Text = "Yes", Value = "True" }, new SelectListItem { Text = "No", Value = "False" } }, new { @class = "form-select" })
+        @Html.ValidationMessageFor(model => model.Active, "", new { @class = "text-danger" })
+    </div>
+}

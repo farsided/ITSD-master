@@ -1,0 +1,120 @@
+﻿@model ITSD.Areas.ITSD.Models.tbl_JobOrder
+
+@{
+    ViewBag.Title = "Status/Update";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var user = new PMSRedirect.UserSessions();
+    var isAllowed = new ITSD.Areas.ITSD.Models.tbl_AllowedToUpdate().ListUserJO(Model.ID).Exists(f => f.userID == user.User.ID);
+}
+
+<div class="card">
+    <div class="card-header bg-primary text-white">
+        <h6>Status/Updates</h6>
+    </div>
+    <div class="card-body">
+        <div class="row mb-2">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <table class="table">
+                            <tr>
+                                <th>Job Order No.</th>
+                                <td>@Model.IDDisplay &nbsp;
+                                <div class="btn-group">
+                                    @if (user.User.ID == Model.encBy)
+                                    {
+                                        <a href="@Url.Action("EditAction", new { ID = Model.ID })" class="btn btn-sm btn-warning"><span class="fa fa-edit"></span></a>
+                                    }
+                                    @if (user.Level == 1)
+                                    {
+                                        <a href="@Url.Action("Edit", new { id = Model.ID })" class="btn btn-sm btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                                    }
+                                </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Date</th>
+                                <td>@string.Format("{0:MMM dd, yyyy}", Model.JDate)</td>
+                            </tr>
+                            <tr>
+                                <th>Job Title</th>
+                                <td>@Model.Title</td>
+                            </tr>
+                            <tr>
+                                <th>Job Description</th>
+                                <td>@Html.Raw(Model.JobDescription)</td>
+                            </tr>
+                            <tr>
+                                <th>Request By</th>
+                                <td>@Model.obj_RequestedBy.Info.Fullname</td>
+                            </tr>
+                            <tr>
+                                <th>Priority</th>
+                                <td>@Model.PriorityDesc</td>
+                            </tr>
+                            <tr>
+                                <th>Action Taker</th>
+                                <td>@string.Format("{0}\t\t\tLast: {1:MMM dd, yyyy hh:mm tt}", Model.ATIDInfo.Info.Fullname, Model.ATDate)</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row row-cols-lg-auto g-1 align-items-center">
+            @if ((user.Level == 1 || user.Level == 2) || user.User.ID == Model.encBy || isAllowed)
+            {
+                <div class="col">
+                    <p>
+                        @Html.ActionLink("Add Update", "AddStatus", new { JOID = Model.ID }, new { @class = "btn btn-success" })
+                    </p>
+                </div>
+                <div class="col">
+                    <p>
+                        @Html.ActionLink("Invite", "JOuserAllowed", new { ID = Model.ID }, new { @class = "btn btn-success" })
+                    </p>
+                </div>
+            }
+        </div>
+        <div class="table-responsive">
+            <table id="pending" class="table table-hover table-striped">
+                <thead class="table-primary">
+                    <tr>
+                        <th>Action Date</th>
+                        <th>Findings/Action Taken</th>
+                        <th>Action Taker</th>
+                        <th>Encoded Date</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Actions)
+                    {
+                        <tr>
+                            <td>@Html.FormatValue(item.ADate, "{0:MMM dd, yyyy}")</td>
+                            <td>@Html.DisplayFor(modelItem => item.ActionTaken)</td>
+                            <td>@Html.DisplayFor(modelItem => item.encByInfo.Info.Fullname)</td>
+                            <td>@Html.FormatValue(item.encDate, "{0:MMM dd, yyyy}")</td>
+                            <td>
+                                @if (item.encBy == user.User.ID)
+                                {
+                                    <div class="btn-group btn-group-sm">
+                                        <a href="@Url.Action("EditStatus", new { id = item.ID })" class="btn btn-sm btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                                    </div>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+
+    <script>
+        $('#pending').DataTable({ ordering: false});
+    </script>
+
+}

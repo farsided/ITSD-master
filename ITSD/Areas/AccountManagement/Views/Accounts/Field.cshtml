@@ -1,0 +1,41 @@
+@model ITSD.Areas.AccountManagement.Models.tbl_Accounts
+@{
+
+}
+
+
+<div class="col-md-6">
+    @Html.LabelFor(model => model.User)
+    @Html.EditorFor(model => model.User, new { htmlAttributes = new { @class = "form-control" } })
+    @Html.ValidationMessageFor(model => model.User, "", new { @class = "text-danger" })
+</div>
+<div class="col-md-6">
+    @Html.LabelFor(model => model.Pass)
+    @Html.EditorFor(model => model.Pass, new { htmlAttributes = new { @class = "form-control" } })
+    @Html.ValidationMessageFor(model => model.Pass, "", new { @class = "text-danger" })
+</div>
+<div class="col-md-12">
+    @Html.LabelFor(model => model.Name)
+    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+</div>
+<div class="col-md-12">
+    @Html.LabelFor(model => model.Status)
+    @Html.EditorFor(model => model.Status, new { htmlAttributes = new { @class = "form-control" } })
+    @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+</div>
+<div class="col-md-12">
+    @Html.LabelFor(model => model.Owner)
+    @Html.EditorFor(model => model.Owner, new { htmlAttributes = new { @class = "form-control" } })
+    @Html.ValidationMessageFor(model => model.Owner, "", new { @class = "text-danger" })
+</div>
+<div class="col-md-12">
+    @Html.LabelFor(model => model.Category)
+    @Html.DropDownListFor(model => model.Category, new ITSD.Areas.AccountManagement.Models.tbl_AccCategory().ListAccCategory(), new { @class = "form-select" })
+    @Html.ValidationMessageFor(model => model.Category, "", new { @class = "text-danger" })
+</div>
+<div class="col-md-12">
+    @Html.LabelFor(model => model.Remarks)
+    @Html.EditorFor(model => model.Remarks, new { htmlAttributes = new { @class = "form-control" } })
+    @Html.ValidationMessageFor(model => model.Remarks, "", new { @class = "text-danger" })
+</div>

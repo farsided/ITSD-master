@@ -1,0 +1,139 @@
+﻿@{ 
+    var session = new PMSRedirect.UserSessions();
+    if (session.User == null)
+    {
+        HttpContext.Current.Response.Redirect("/");
+    }
+    var jo = new ITSD.Areas.ITSD.Models.tbl_JobOrder();
+
+    //var pendingcount = jo.List("", session.User.ID).Where(f => f.Status == "Pending" && (f.Cancel == false || f.Cancel == null)).Count();
+    //var donecount = jo.List("", session.User.ID).Where(f => f.Status == "Done" && (f.Cancel == false || f.Cancel == null) && f.Approved == true).Count();
+    //var progresscount = jo.List("", session.User.ID).Where(f => f.Status == "In progress" && (f.Cancel == false || f.Cancel == null) && f.Approved == true).Count();
+    //var generalcount = jo.List().Where(f => (f.Cancel == false || f.Cancel == null) && f.Approved == true && (f.Status == "Pending" || f.Status == "In progress")).Count();
+    //var approvalcount = jo.List().Where(f => (f.Cancel == false || f.Cancel == null) && (f.Approved == false || f.Approved == null) && f.encByInfo.Info.department == session.User.Info.department).Count();
+
+    //debug
+    jo.InitStatusCount();
+    var pendingcount = jo.PendingCount;
+    var donecount = jo.DoneCount;
+    var progresscount = jo.ProgressCount;
+    var generalcount = jo.GeneralCount;
+    var approvalcount = jo.ApprovalCount;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - ITSD</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="@Url.Action("Index", "Home", new { area = "" })">
+                <img src="~/Content/img/logo/ITSD.png" width="50" class="rounded-circle" alt="Alternate Text" />
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="@Url.Action("General", "JobOrder", new { area = "ITSD" })"><i class="fa fa-globe" aria-hidden="true"></i>&nbsp;Job Order&nbsp;<span style="font-size: 0.7rem;" class="badge bg-secondary rounded-pill generalcount">@generalcount+</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="@Url.Action("Index", "Schedule", new { area = "ITSD" })"><i class="fa fa-calendar-check-o" aria-hidden="true"></i>&nbsp;Borrow Sched</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link active dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fa fa-user-circle-o" aria-hidden="true"></i>&nbsp;My Request
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="@Url.Action("Pending", "JobOrder", new { area = "ITSD" })"> <i class="fa fa-exclamation-circle" aria-hidden="true"></i>&nbsp;Pending&nbsp;<span style="font-size: 0.7rem;" class="badge bg-danger rounded-pill">@pendingcount+</span></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="@Url.Action("Progress", "JobOrder", new { area = "ITSD" })"> <i class="fa fa-spinner" aria-hidden="true"></i>&nbsp;In progress&nbsp;<span style="font-size: 0.7rem;" class="badge bg-warning rounded-pill">@progresscount+</span></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="@Url.Action("Done", "JobOrder", new { area = "ITSD" })"> <i class="fa fa-check-circle" aria-hidden="true"></i>&nbsp;Done&nbsp;<span style="font-size: 0.7rem;" class="badge bg-success rounded-pill">@donecount+</span></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="@Url.Action("Cancel", "JobOrder", new { area = "ITSD" })"> <i class="fa fa-trash" aria-hidden="true"></i>&nbsp;Cancel</a>
+                            </li>
+                        </ul>
+                    </li>
+                    @if (session.Level == 1)
+                    {
+                        <li class="nav-item dropdown">
+                            <a class="nav-link active dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fa fa-gears" aria-hidden="true"></i>&nbsp;Settings
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <li class="nav-item">
+                                    <a class="nav-link active" aria-current="page" href="@Url.Action("Edit", "Template", new { area = "ITSD" })"><i class="fa fa-cog" aria-hidden="true"></i>&nbsp;Template</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link active" aria-current="page" href="@Url.Action("Index", "Category", new { area = "ITSD" })"><i class="fa fa-cog" aria-hidden="true"></i>&nbsp;Categories</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="@Url.Action("ForApproval", "JobOrder", new { area = "ITSD" })"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i>&nbsp;For Approval&nbsp;<span style="font-size: 0.7rem;" class="badge bg-info rounded-pill">@approvalcount+</span></a>
+                        </li>
+                    }
+                    @if (session.Level == 3)
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="@Url.Action("ForApproval", "JobOrder", new { area = "ITSD" })"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i>&nbsp;For Approval&nbsp;<span style="font-size: 0.7rem;" class="badge bg-info rounded-pill">@approvalcount+</span></a>
+                        </li>
+                    }
+                    @if (session.Level == 1 || session.Level == 2)
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="@Url.Action("MasterList", "JobOrder", new { area = "ITSD" })"><i class="fa fa-users" aria-hidden="true"></i>&nbsp;Records</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="#" data-bs-toggle="modal" data-bs-target="#ReportModal"><i class="fa fa-book" aria-hidden="true"></i>&nbsp;Report</a>
+                        </li>
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link active dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fa fa-gears" aria-hidden="true"></i>&nbsp;System
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <li class="nav-item">
+                                    <a class="nav-link active" aria-current="page" href="@Url.Action("Index", "License", new { area = "LMS" })"> <i class="fa fa-key" aria-hidden="true"></i>&nbsp;License</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link active" aria-current="page" href="@Url.Action("Index", "Accounts", new { area = "AccountManagement" })"> <i class="fa fa-book" aria-hidden="true"></i>&nbsp;Accounts</a>
+                                </li>
+                            </ul>
+                        </li>
+                    }
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="@Url.Action("DepartmentRequest", "JobOrder", new { area = "ITSD" })"><i class="fa fa-sitemap" aria-hidden="true"></i>&nbsp;@session.User.Info.department Request</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="@Url.Action("Logout", "Home", new { area = "" })"><i class="fa fa-sign-out" aria-hidden="true"></i>&nbsp;Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="body-content mt-5">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p class="text-muted" style="font-family: Calibri, Impact;font-weight:bold;">&copy; 2022 &mdash; <a class="text-decoration-none" href="https://adrian1612.github.io" target="_blank">Adrian Jaspio</a></p>
+        </footer>
+    </div>
+    @Html.Partial("PartialReport")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+    @RenderSection("JavaScript", required: false)
+</body>
+</html>

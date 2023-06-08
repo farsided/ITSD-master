@@ -1,0 +1,145 @@
+@model IEnumerable<ITSD.Areas.ITSD.Models.tbl_Scheduler>
+
+@{
+    ViewBag.Title = "List Schedule";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="card">
+    <div class="card-header">
+        <h6>List Schedule</h6>
+    </div>
+    <div class="card-body">
+        <div class="row row-cols-lg-auto g-1 align-items-center">
+            <div class="col">
+                <p>
+                    @Ajax.ActionLink("New", "Create", "", new AjaxOptions { UpdateTargetId = "modalcontent", OnComplete = "$('#ModalEntry').modal('show');" }, new { @class = "btn btn-success text-white" })
+                </p>
+            </div>
+            <div class="col">
+                @using (Html.BeginForm())
+                {
+                    <div class="input-group mb-3">
+                        @Html.TextBox("Search", "", new { @class = "form-control", placeholder = "Search for ...", type = "search" })
+                        <input type="submit" value="Search" class="btn btn-secondary" />
+                    </div>
+                }
+            </div>
+        </div>
+        <section>
+            <div class="row mb-3 p-5">
+                <h1>Borrow Schedule</h1>
+                <div id="sched">
+
+                </div>
+            </div>
+        </section>
+        <div class="table-responsive">
+            <table id="data" class="table table-hover table-striped">
+                <thead class="table-dark">
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.Title)</th>
+                        <th>@Html.DisplayNameFor(model => model.Description)</th>
+                        <th>@Html.DisplayNameFor(model => model.Start)</th>
+                        <th>@Html.DisplayNameFor(model => model.End)</th>
+                        <th>@Html.DisplayNameFor(model => model.Cancel)</th>
+                        <th>@Html.DisplayNameFor(model => model.Active)</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => item.Title)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Description)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Start)</td>
+                            <td>@Html.DisplayFor(modelItem => item.End)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Cancel)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Active)</td>
+                            <td>
+                                <div class="btn-group btn-group-sm">
+                                    @Ajax.ActionLink("Edit", "Edit", new { id = item.ID }, new AjaxOptions { UpdateTargetId = "modalcontent", OnComplete = "$('#ModalEntry').modal('show');" }, new { @class = "btn btn-sm btn-secondary" })
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="ModalEntry" tabindex="-1" data-bs-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div id="modalcontent" class="modal-content">
+
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="schedinfo" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h1 class="modal-title fs-5" id="schedtitle"></h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <table class="table">
+                    <tr>
+                        <th>Requestor</th>
+                        <td id="schedname"></td>
+                    </tr>
+                    <tr>
+                        <th>Department</th>
+                        <td id="scheddepartment"></td>
+                    </tr>
+                    <tr>
+                        <th>Description</th>
+                        <td id="scheddescription"></td>
+                    </tr>
+                    <tr>
+                        <th>Duration</th>
+                        <td id="schedduration"></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts {
+    <script>
+        $('#data').DataTable({
+            ordering: false,
+            searching: false
+        });
+
+        $(document).on('DOMContentLoaded', function () {
+            var calendarEl = document.getElementById('sched');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                height: 650,
+                events: '@Url.Action("Events", "Schedule", new { area = "ITSD" })',
+                eventClick: function (info) {
+                    $('#schedtitle').html(info.event.title);
+                    $('#schedname').html(info.event.extendedProps.Name);
+                    $('#scheddepartment').html(info.event.extendedProps.Department);
+                    $('#scheddescription').html(info.event.extendedProps.Description);
+                    $('#schedduration').html(info.event.extendedProps.Duration);
+                    $('#schedinfo').modal('show');
+                }
+            });
+            calendar.render();
+        });
+    </script>
+}

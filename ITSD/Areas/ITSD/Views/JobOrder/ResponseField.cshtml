@@ -1,0 +1,42 @@
+﻿@model ITSD.Areas.ITSD.Models.tbl_JobOrder
+
+
+<div class="col-md-12">
+    @Html.LabelFor(model => model.Title)
+    @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control", placeholder = "Insert title here", @readonly = "true" } })
+    @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+</div>
+<div class="col-md-12">
+    @Html.LabelFor(model => model.Company)
+    @Html.DropDownListFor(model => model.Company, new ITSD.Areas.ITSD.Models.tbl_JobOrder().CompanyList(), new { @class = "form-select" })
+    @Html.ValidationMessageFor(model => model.Company, "", new { @class = "text-danger" })
+</div>
+<div class="col-md-12">
+    @Html.Raw(Model.JobDescription)
+    @Html.ValidationMessageFor(model => model.JobDescription, "", new { @class = "text-danger" })
+</div>
+<div class="col-md-12">
+    @Html.LabelFor(model => model.JDate)
+    @Html.EditorFor(model => model.JDate, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+    @Html.ValidationMessageFor(model => model.JDate, "", new { @class = "text-danger" })
+</div>
+<div class="col-md-12">
+    @Html.LabelFor(model => model.RequestedBy)
+    @Html.DropDownListFor(model => model.RequestedBy, new ITSD.Areas.ITSD.Models.tbl_JobOrder().GeneralEIS(), new { @class = "form-select", @readonly = "true" } )
+    @Html.ValidationMessageFor(model => model.RequestedBy, "", new { @class = "text-danger" })
+</div>
+<div class="col-md-6">
+    @Html.LabelFor(model => model.Category)
+    @Html.DropDownListFor(model => model.Category, new ITSD.Areas.ITSD.Models.tbl_Category().SelectCat(), new { @class = "form-select" })
+    @Html.ValidationMessageFor(model => model.Category, "", new { @class = "text-danger" })
+</div>
+<div class="col-md-6">
+    @Html.LabelFor(model => model.SubCategory)
+    @Html.DropDownListFor(model => model.SubCategory, new ITSD.Areas.ITSD.Models.tbl_SubCategory().SelectCat(), new { @class = "form-select" })
+    @Html.ValidationMessageFor(model => model.SubCategory, "", new { @class = "text-danger" })
+</div>
+<div class="col-md-12">
+    @Html.LabelFor(model => model.Priority)
+    @Html.DropDownListFor(model => model.Priority, new List<SelectListItem> { new SelectListItem { Value = "1", Text = "Important/Urgent" }, new SelectListItem { Value = "2", Text = "Not Important/Urgent" }, new SelectListItem { Value = "3", Text = "Important/Not Urgent" }, new SelectListItem { Value = "4", Text = "Not Important/Not Urgent" }, }, new { @class = "form-select" })
+    @Html.ValidationMessageFor(model => model.Priority, "", new { @class = "text-danger" })
+</div>

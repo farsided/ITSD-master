@@ -1,0 +1,104 @@
+﻿<!-- Modal -->
+<div class="modal modal-xl fade" id="ViewModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <b class="modal-title ModalJO"></b> &nbsp;
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div id="content" class="modal-body">
+                <table class="table">
+                    <tr>
+                        <th colspan="4" style="text-align:center;"><b>INFORMATION TECHNOLOGY SERVICES DEPARTMENT<br />JOB ORDER FORM</b><br /></th>
+                    </tr>
+                    <tr>
+                        <th colspan="3"></th>
+                        <th><b>No:&nbsp;<span class="ModalJO text-decoration-underline"></span></b></th>
+                    </tr>
+                    <tr>
+                        <th width="25%" style="text-align:left">Job Description</th>
+                        <th width="25%" style="text-align:left">Date</th>
+                        <th width="25%" style="text-align:left">Requested By</th>
+                        <th width="25%" style="text-align:left">Approved By</th>
+                    </tr>
+                    <tr>
+                        <td id="ModalTitle"></td>
+                        <td id="ModalDate"></td>
+                        <td id="ModalRB"></td>
+                        <td id="ModalEB"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Company:</b>&nbsp;<span id="ModalCompany"></span></td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <div id="ModalContent"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <div id="ModalUpdates"></div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-success" onclick="Print()">Print</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="overlay">
+    <div class="cv-spinner">
+        <span class="spinner"></span>
+    </div>
+</div>
+
+<script>
+    function View(i) {
+        //var item = i;
+        $.ajax({
+            url: '@Url.Action("Fetch", "JobOrder")',
+            method: 'get',
+            data: { ID: i },
+            dataType: 'JSON',
+            beforeSend: function (data) {
+                $("#overlay").fadeIn(300);
+            },
+            success: function (item) {
+                $('.ModalJO').text(item.IDDisplay);
+                $('#ModalTitle').text(item.Title);
+                $('#ModalCompany').text(item.Company);
+                $('#ModalDate').text(new Date(parseInt(item.JDate.substr(6))).toLocaleDateString());
+                $('#ModalRB').text(item.obj_RequestedBy.Info.Fullname);
+                if (item.ApprovedInfo) {
+                    $('#ModalEB').text(`${item.ApprovedInfo.Info.Fullname}`);
+                }
+                $('#ModalContent').html(item.JobDescription);
+                var subtable = '<table style="font-family: Arial, Helvetica, sans-serif; border-collapse: collapse; width: 100%;">';
+                subtable += '<tr><th style="border: 1px solid #ddd; padding: 8px;"><b>Date</b></td><th style="border: 1px solid #ddd; padding: 8px;"><b>Action Taken</b></th><th style="border: 1px solid #ddd; padding: 8px;"><b>Action Taker</b></th></tr>';
+                $.each(item.Actions, function (i, sub) {
+                    subtable += `<tr><td style="border: 1px solid #ddd; padding: 8px;">${new Date(parseInt(sub.ADate.substr(6))).toLocaleDateString()}</td><td style="border: 1px solid #ddd; padding: 8px;">${sub.ActionTaken}</td><td style="border: 1px solid #ddd; padding: 8px;">${sub.encByInfo.Info.Fullname}</td></tr>`;
+                });
+                subtable += '</table>';
+                $('#ModalUpdates').html(subtable);
+                $('#ViewModal').modal('show');
+            }
+        }).done(function () {
+            $("#overlay").fadeOut(300);
+        });
+    }
+
+    function Print() {
+        var divContents = document.getElementById("content").innerHTML;
+        var a = window.open('', '', 'height=1440, width=1524');
+        a.document.write('<html>');
+        a.document.write('<body>');
+        a.document.write(divContents);
+        a.document.write('</body></html>');
+        a.document.close();
+        a.print();
+    }
+</script>

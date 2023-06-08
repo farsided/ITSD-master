@@ -1,0 +1,43 @@
+﻿<div class="modal fade" id="ReportModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            @using (Html.BeginForm("Print", "JobOrder", FormMethod.Post, new { target = "_blank" }))
+            {
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Filter Report</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-2 g-1">
+                        <div class="col-md-6">
+                            Starting Date
+                            <input type="date" name="StartDate" class="form-control" value="" required />
+                        </div>
+                        <div class="col-md-6">
+                            End Date
+                            <input type="date" name="EndDate" class="form-control" value="" required />
+                        </div>
+                        <div class="col-md-12">
+                            Option
+                            <select class="form-select" name="Status">
+                                <option value="0">Pending/In progress</option>
+                                <option value="1">Done</option>
+                            </select>
+                        </div>
+                        <div class="col-md-12">
+                            FORMAT
+                            <select class="form-select" name="Format">
+                                <option value="0">PDF</option>
+                                <option value="1">Excel</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Generate Report</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>

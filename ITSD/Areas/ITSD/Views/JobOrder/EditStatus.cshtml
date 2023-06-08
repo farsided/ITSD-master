@@ -1,0 +1,56 @@
+﻿@model ITSD.Areas.ITSD.Models.tbl_JobActionTaken
+
+@{
+    ViewBag.Title = "Edit Updates";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var user = new PMSRedirect.UserSessions();
+}
+
+<div class="col-md-6">
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h6>Edit Updates</h6>
+        </div>
+        <div class="card-body">
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="row mb-2 g-2">
+                    @Html.HiddenFor(model => model.ID)
+                    @Html.HiddenFor(model => model.JOID)
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.ADate)
+                        @Html.EditorFor(model => model.ADate, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.ADate, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.ActionTaken)
+                        @Html.TextAreaFor(model => model.ActionTaken, 10, 10, new { @class = "form-control", placeholder = "Insert the description here" })
+                        @Html.ValidationMessageFor(model => model.ActionTaken, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-12">
+                        @Html.Label("Status")
+                        @Html.DropDownList("Status", new ITSD.Areas.ITSD.Models.tbl_JobOrder().StatusList("Pending"), new { @class = "form-select"})
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-md-12">
+                        <input type="submit" value="Save" class="btn btn-success" />
+                    </div>
+                </div>
+            }
+            <div>
+                @Html.ActionLink("Back to List", "ActionUpdate", new { ID = Model.JOID })
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $('#RequestedBy').select2();
+        TextEditor('#ActionTaken');
+    </script>
+}

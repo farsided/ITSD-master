@@ -1,0 +1,115 @@
+@model IEnumerable<ITSD.Areas.AccountManagement.Models.tbl_Accounts>
+
+@{
+    ViewBag.Title = "Account List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="card">
+    <div class="card-header">
+        <h6>Account List</h6>
+    </div>
+    <div class="card-body">
+        <div class="row row-cols-lg-auto g-1 align-items-center">
+            <div class="col">
+                <p>
+                    <a href="#" class="btn btn-dark" onclick="Action('Add', null)"><span class="fa fa-plus"></span></a>
+                </p>
+            </div>
+            <div class="col">
+                @using (Html.BeginForm())
+                {
+                    <div class="input-group mb-3">
+                        @Html.TextBox("Search", "", new { @class = "form-control", placeholder = "Search for ...", type = "search" })
+                        <input type="submit" value="Search" class="btn btn-secondary" />
+                    </div>
+                }
+            </div>
+            <div class="col">
+                <p>
+                    @Html.ActionLink("Manage Category", "Index", "AccountCategory", "", new { @class = "btn btn-primary" })
+                </p>
+            </div>
+            <div class="col">
+                <p>
+                    @Html.ActionLink("Print", "Print", "Accounts", "", new { @class = "btn text-white btn-success", target = "_blank" })
+                </p>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table id="data" class="table table-hover table-striped" style="font-size:0.7rem;">
+                <thead class="table-dark p-4">
+                    <tr>
+                        <th></th>
+                        <th class="text-nowrap">@Html.DisplayNameFor(model => model.User)</th>
+                        <th class="text-nowrap">@Html.DisplayNameFor(model => model.Pass)</th>
+                        <th class="text-nowrap">@Html.DisplayNameFor(model => model.Name)</th>
+                        <th class="text-nowrap">@Html.DisplayNameFor(model => model.Status)</th>
+                        <th class="text-nowrap">@Html.DisplayNameFor(model => model.Owner)</th>
+                        <th class="text-nowrap">@Html.DisplayNameFor(model => model.Category)</th>
+                        <th class="text-nowrap">@Html.DisplayNameFor(model => model.Remarks)</th>
+                        <th class="text-nowrap">@Html.DisplayNameFor(model => model.encBy)</th>
+                        <th class="text-nowrap">@Html.DisplayNameFor(model => model.lastMod)</th>
+                        <th class="text-nowrap">@Html.DisplayNameFor(model => model.lastModDate)</th>
+                        <th class="text-nowrap">@Html.DisplayNameFor(model => model.encDate)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                <div class="btn-group btn-group-sm">
+                                    <a href="#" class="btn btn-dark" onclick="Action('Edit',@item.ID)"><span class="fa fa-edit"></span></a>
+                                </div>
+                            </td>
+                            <td class="align-middle">@Html.DisplayFor(modelItem => item.User)</td>
+                            <td class="align-middle">@Html.DisplayFor(modelItem => item.Pass)</td>
+                            <td class="align-middle">@Html.DisplayFor(modelItem => item.Name)</td>
+                            <td class="align-middle">@Html.DisplayFor(modelItem => item.Status)</td>
+                            <td class="align-middle">@Html.DisplayFor(modelItem => item.Owner)</td>
+                            <td class="align-middle">@Html.DisplayFor(modelItem => item.Category)</td>
+                            <td class="align-middle">@Html.DisplayFor(modelItem => item.Remarks)</td>
+                            <td class="text-nowrap ml-2 align-middle">@Html.DisplayFor(modelItem => item.obj_encBy.Info.Fullname)</td>
+                            <td class="text-nowrap ml-2 align-middle">@Html.DisplayFor(modelItem => item.obj_lastMod.Info.Fullname)</td>
+                            <td class="text-nowrap ml-2 align-middle">@Html.DisplayFor(modelItem => item.lastModDate)</td>
+                            <td class="text-nowrap ml-2 align-middle">@Html.DisplayFor(modelItem => item.encDate)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="ModalEntry" tabindex="-1" data-bs-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div id="modalcontent" class="modal-content">
+
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        $('#data').DataTable({
+            ordering: false,
+            searching: false
+        });
+
+        function Action(type, id) {
+            $.ajax({
+                url: '@Url.Action("Action")',
+                data: { Type: type, ID: id },
+                dataType: 'html',
+                success: function (data) {
+                    $('#modalcontent').html(data);
+                    $('#ModalEntry').modal('show');
+                }
+            });
+        }
+    </script>
+}

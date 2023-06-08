@@ -1,0 +1,59 @@
+﻿@model IEnumerable<ITSD.Areas.ITSD.Models.tbl_JobOrder>
+
+@{
+    ViewBag.Title = "General";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var user = new PMSRedirect.UserSessions();
+}
+
+<div class="card">
+    <div class="card-header bg-primary text-white">
+        <h6>Job Order request</h6>
+    </div>
+    <div class="card-body">
+        <div class="row row-cols-lg-auto g-1 align-items-center">
+            <div class="col">
+                <p>
+                    @Html.ActionLink("Request Job Order", "Create", "", new { @class = "btn btn-success" })
+                </p>
+            </div>
+            <div class="col">
+                @using (Html.BeginForm())
+                {
+                    <div class="input-group mb-3">
+                        @Html.TextBox("Search", "", new { @class = "form-control", placeholder = "Keyword", type = "search" })
+                        <input type="submit" value="Search" class="btn btn-secondary" />
+                    </div>
+                }
+            </div>
+        </div>
+        <div id="field" class="table-responsive">
+           
+        </div>
+    </div>
+</div>
+
+
+@Html.Partial("Modal")
+
+@section scripts {
+
+    <script>
+
+        GetData();
+        setInterval(function() {
+            GetData();
+        }, 15000);
+
+        function GetData() {
+            $.ajax({
+                url: '@Url.Action("GeneralData", "JobOrder")',
+                data: { Search: $('#Search').val() },
+                success: function (data) {
+                    $('#field').html(data);
+                    
+                }
+            });
+        }
+    </script>
+}
