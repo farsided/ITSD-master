@@ -45,22 +45,51 @@ namespace ITSD.Areas.ITSD.Models
 
         public tbl_JobActionTaken()
         {
+            
         }
         public tbl_JobActionTaken(DataRow r) : base(r)
         {
         }
+
+        List<tbl_user> GetUserList()
+        {
+            return userList;
+        }
+        void SetUserList()
+        {
+            if(userList == null)
+            {
+                userList = session.User.List();
+            }
+        }
+
+        List<tbl_user> userlist { get; set; } = new List<tbl_user>();
+
+        List<tbl_user> userList
+        {
+            get
+            {
+                return userlist;
+            }
+            set
+            {
+                userlist = session.User.List();
+            }
+        }
+
+
         public List<tbl_JobActionTaken> List(string Search = "")
         {
             var list = new List<tbl_JobActionTaken>();
-            var user = session.User.List();
+
             s.Query("SELECT * FROM [tbl_JobActionTaken] WHERE CONCAT(ID,JOID,ADate,ActionTaken,encBy,encDate) LIKE @Search ORDER BY ID DESC", p => p.Add("@Search", $"%{Search}%")).ForEach(r =>
             {
                 var item = new tbl_JobActionTaken(r);
-                item.encByInfo = user.Find(f => f.ID == item.encBy);
+                item.encByInfo = userList.Find(f => f.ID == item.encBy);
                 list.Add(item);
             });
 
-            user = null;
+            userList = null;
             return list;
         }
         public tbl_JobActionTaken Find(int ID)
