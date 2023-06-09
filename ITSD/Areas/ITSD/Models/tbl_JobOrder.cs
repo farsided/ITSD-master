@@ -109,6 +109,7 @@ namespace ITSD.Areas.ITSD.Models
         [ScaffoldColumn(false)]
         public Int32 encBy { get; set; }
         public tbl_user encByInfo { get; set; }
+        public string encByFullName { get; set; }
 
         [Display(Name = "Encoded Date")]
         [ScaffoldColumn(false)]
@@ -225,6 +226,7 @@ namespace ITSD.Areas.ITSD.Models
         public int ProgressCount { get; set; }
         public int ApprovalCount { get; set; }
         public int GeneralCount { get; set; }
+        public string EncByFullName { get; set; }
 
         public List<tbl_JobOrder> List(string Search = "", int encBy = 0)
         {
@@ -240,6 +242,7 @@ namespace ITSD.Areas.ITSD.Models
                 item.ApprovedInfo = listuser.Find(f => f.ID == item.ApprovedBy);
                 item.CancelInfo = listuser.Find(f => f.ID == item.CancelBy);
                 item.encByInfo = listuser.Find(f => f.ID == item.encBy);
+                item.EncByFullName = listuser.Find(f => f.ID == item.encBy) == null ? "NULL" : listuser.Find(f => f.ID == item.encBy).Info.Fullname;
                 list.Add(item);
             });
             actions = null;
