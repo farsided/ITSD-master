@@ -136,23 +136,32 @@ namespace ITSD.Areas.ITSD.Models
         }
 
         public List<tbl_JobActionTaken> Actions { get; set; }
-
+        static List<tbl_user> uList;
+        public List<tbl_user> userList {
+            get
+            {
+                return uList;
+            }
+            set
+            {
+            }
+        }
         public tbl_JobOrder()
         {
         }
         public void InitStatusCount()
         {
             var actions = new tbl_JobActionTaken().List();
-            var listuser = session.User.List();
+            uList = session.User.List();
             s.Query("tbl_JobOrder_List", p => { p.Add("@Search", $"%%"); p.Add("@encBy", 576); }, CommandType.StoredProcedure).ForEach(r =>
             {
                 var item = new tbl_JobOrder(r);
-                item.obj_RequestedBy = listuser.Find(f => f.Info?.AutoNo == item.RequestedBy);
-                item.Actions = actions.Where(f => f.JOID == item.ID).ToList();
-                item.ATIDInfo = listuser.Find(f => f.ID == item.ATID);
-                item.ApprovedInfo = listuser.Find(f => f.ID == item.ApprovedBy);
-                item.CancelInfo = listuser.Find(f => f.ID == item.CancelBy);
-                item.encByInfo = listuser.Find(f => f.ID == item.encBy);
+                //item.obj_RequestedBy = userList.Find(f => f.Info?.AutoNo == item.RequestedBy);
+                //item.Actions = actions.Where(f => f.JOID == item.ID).ToList();
+                //item.ATIDInfo = userList.Find(f => f.ID == item.ATID);
+                //item.ApprovedInfo = userList.Find(f => f.ID == item.ApprovedBy);
+                //item.CancelInfo = userList.Find(f => f.ID == item.CancelBy);
+                //item.encByInfo = userList.Find(f => f.ID == item.encBy);
                 if (item.Status == "Pending" && (item.Cancel == false || item.Cancel == null))
                 {
                     PendingCount++;
@@ -170,12 +179,12 @@ namespace ITSD.Areas.ITSD.Models
             s.Query("tbl_JobOrder_List", p => { p.Add("@Search", $"%%"); }, CommandType.StoredProcedure).ForEach(r =>
             {
                 var item = new tbl_JobOrder(r);
-                item.obj_RequestedBy = listuser.Find(f => f.Info?.AutoNo == item.RequestedBy);
-                item.Actions = actions.Where(f => f.JOID == item.ID).ToList();
-                item.ATIDInfo = listuser.Find(f => f.ID == item.ATID);
-                item.ApprovedInfo = listuser.Find(f => f.ID == item.ApprovedBy);
-                item.CancelInfo = listuser.Find(f => f.ID == item.CancelBy);
-                item.encByInfo = listuser.Find(f => f.ID == item.encBy);
+                //item.obj_RequestedBy = userList.Find(f => f.Info?.AutoNo == item.RequestedBy);
+                //item.Actions = actions.Where(f => f.JOID == item.ID).ToList();
+                //item.ATIDInfo = userList.Find(f => f.ID == item.ATID);
+                //item.ApprovedInfo = userList.Find(f => f.ID == item.ApprovedBy);
+                //item.CancelInfo = userList.Find(f => f.ID == item.CancelBy);
+                item.encByInfo = userList.Find(f => f.ID == item.encBy);
                 if ((item.Cancel == false || item.Cancel == null) && item.Approved == true && (item.Status == "Pending" || item.Status == "In progress"))
                 {
                     GeneralCount++;
@@ -232,21 +241,20 @@ namespace ITSD.Areas.ITSD.Models
         {
             var list = new List<tbl_JobOrder>();
             var actions = new tbl_JobActionTaken().List();
-            var listuser = session.User.List();
             s.Query("tbl_JobOrder_List", p => { p.Add("@Search", $"%{Search}%"); p.Add("@encBy", encBy); }, CommandType.StoredProcedure).ForEach(r =>
             {
                 var item = new tbl_JobOrder(r);
-                item.obj_RequestedBy = listuser.Find(f => f.Info?.AutoNo == item.RequestedBy);
+                item.obj_RequestedBy = userList != null ? userList.Find(f => f.Info?.AutoNo == item.RequestedBy) : ( (userList = session.User.List()).Find(f => f.Info?.AutoNo == item.RequestedBy));
                 item.Actions = actions.Where(f => f.JOID == item.ID).ToList();
-                item.ATIDInfo = listuser.Find(f => f.ID == item.ATID);
-                item.ApprovedInfo = listuser.Find(f => f.ID == item.ApprovedBy);
-                item.CancelInfo = listuser.Find(f => f.ID == item.CancelBy);
-                item.encByInfo = listuser.Find(f => f.ID == item.encBy);
-                item.EncByFullName = listuser.Find(f => f.ID == item.encBy) == null ? "NULL" : listuser.Find(f => f.ID == item.encBy).Info.Fullname;
+                item.ATIDInfo = userList.Find(f => f.ID == item.ATID);
+                item.ApprovedInfo = userList.Find(f => f.ID == item.ApprovedBy);
+                item.CancelInfo = userList.Find(f => f.ID == item.CancelBy);
+                item.encByInfo = userList.Find(f => f.ID == item.encBy);
+                item.EncByFullName = userList.Find(f => f.ID == item.encBy) == null ? "NULL" : userList.Find(f => f.ID == item.encBy).Info.Fullname;
                 list.Add(item);
             });
             actions = null;
-            listuser = null;
+            userList = null;
 
             return list;
         }
@@ -442,7 +450,6 @@ namespace ITSD.Areas.ITSD.Models
         public List<JobOrderWithUpdates> List(DateTime StartDate, DateTime EndDate, Status Status)
         {
             var list = new List<JobOrderWithUpdates>();
-            var users = session.User.List();
             var status = "";
             switch (Status)
             {
@@ -461,7 +468,7 @@ namespace ITSD.Areas.ITSD.Models
             }).ForEach(r =>
             {
                 var item = new JobOrderWithUpdates(r);
-                item.encByAInfo = users.Find(f => f.ID == item.encByA);
+                item.encByAInfo = userList.Find(f => f.ID == item.encByA);
                 list.Add(item);
             });
             return list;

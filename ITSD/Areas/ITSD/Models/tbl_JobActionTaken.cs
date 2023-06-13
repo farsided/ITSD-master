@@ -65,7 +65,7 @@ namespace ITSD.Areas.ITSD.Models
 
         List<tbl_user> userlist { get; set; } = new List<tbl_user>();
 
-        List<tbl_user> userList
+        public List<tbl_user> userList
         {
             get
             {

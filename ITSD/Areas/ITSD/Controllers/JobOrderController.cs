@@ -73,8 +73,18 @@ namespace ITSD.Areas.ITSD.Controllers
 
         public ActionResult DepartmentRequest(string Search = "")
         {
-            var list = mod.List(Search).Where(f => (f.Status == "Pending" || f.Status == "In progress") && !isDefault(f.Approved) && f.encByInfo.Info.department == user.User.Info.department);
-            return View(list);
+            try
+            {
+                var list = mod.List(Search).Where(f =>
+                (f.Status == "Pending" || f.Status == "In progress") &&
+                !isDefault(f.Approved) &&
+                ( (f.encByInfo.Info.department != null) ? ( f.encByInfo.Info.department  == user.User.Info.department ) : false ) );
+                return View(list);
+            }
+            catch
+            {
+                return View();
+            }
         }
 
         bool isDefault(bool? field)
