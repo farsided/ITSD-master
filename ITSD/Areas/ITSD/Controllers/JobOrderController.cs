@@ -78,7 +78,7 @@ namespace ITSD.Areas.ITSD.Controllers
                 var list = mod.List(Search).Where(f =>
                 (f.Status == "Pending" || f.Status == "In progress") &&
                 !isDefault(f.Approved) &&
-                ( (f.encByInfo.Info.department != null) ? ( f.encByInfo.Info.department  == user.User.Info.department ) : false ) );
+                ( (f.encByInfo == null) ? false : f.encByInfo.Info.department == user.User.Info.department) );
                 return View(list);
             }
             catch
