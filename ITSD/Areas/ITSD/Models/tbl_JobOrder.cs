@@ -222,10 +222,20 @@ namespace ITSD.Areas.ITSD.Models
         public SelectList GeneralEIS()
         {
             var EISList = new List<object>();
-            s.Query("SELECT * FROM dbo.GeneralEIS()").ForEach(r =>
+
+            //release
+            //s.Query("SELECT * FROM dbo.GeneralEIS()").ForEach(r =>
+            //{
+            //    EISList.Add(new { AutoNo = $"{r["AutoNo"]}", Fullname = $"{r["fname"]} {r["mn"]} {r["lname"]}" });
+            //});
+
+            //debug jose
+            s.Query("SELECT AutoNo, fname, lname FROM dbo.GeneralEIS()").ForEach(r =>
             {
                 EISList.Add(new { AutoNo = $"{r["AutoNo"]}", Fullname = $"{r["fname"]} {r["mn"]} {r["lname"]}" });
             });
+
+            //
             var list = new SelectList(EISList, "AutoNo", "Fullname");
             return list;
         }

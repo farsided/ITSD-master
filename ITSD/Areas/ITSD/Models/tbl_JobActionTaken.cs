@@ -81,15 +81,18 @@ namespace ITSD.Areas.ITSD.Models
         public List<tbl_JobActionTaken> List(string Search = "")
         {
             var list = new List<tbl_JobActionTaken>();
-
+            if(userlist.Count == 0)
+            {
+                userlist = session.User.List();
+            }
             s.Query("SELECT * FROM [tbl_JobActionTaken] WHERE CONCAT(ID,JOID,ADate,ActionTaken,encBy,encDate) LIKE @Search ORDER BY ID DESC", p => p.Add("@Search", $"%{Search}%")).ForEach(r =>
             {
                 var item = new tbl_JobActionTaken(r);
-                item.encByInfo = userList.Find(f => f.ID == item.encBy);
+                item.encByInfo = userlist.Find(f => f.ID == item.encBy);
                 list.Add(item);
             });
 
-            userList = null;
+            userlist = null;
             return list;
         }
         public tbl_JobActionTaken Find(int ID)
