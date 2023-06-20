@@ -255,6 +255,7 @@
     <Compile Include="Areas\LMS\LMSAreaRegistration.cs" />
     <Compile Include="Areas\LMS\Models\tbl_LMS.cs" />
     <Compile Include="Classes\MasterControl.cs" />
+    <Compile Include="Classes\Printer.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

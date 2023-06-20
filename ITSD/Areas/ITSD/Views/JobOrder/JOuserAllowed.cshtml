@@ -24,6 +24,9 @@
                         <td>@JO.IDDisplay</td>
                         <td>@JO.Title</td>
                         <td>@JO.obj_RequestedBy.Info.Fullname</td>
+                        @{
+                            JO = null;     //added by:jose
+                        }
                     </tr>
                 </table>
                 @using (Html.BeginForm())

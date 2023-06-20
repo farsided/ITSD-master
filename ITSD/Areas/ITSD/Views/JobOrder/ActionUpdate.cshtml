@@ -4,7 +4,10 @@
     ViewBag.Title = "Status/Update";
     Layout = "~/Views/Shared/_Layout.cshtml";
     var user = new PMSRedirect.UserSessions();
-    var isAllowed = new ITSD.Areas.ITSD.Models.tbl_AllowedToUpdate().ListUserJO(Model.ID).Exists(f => f.userID == user.User.ID);
+    var UserID = user.User.ID;  //added by: jose
+    var Level = user.Level;     //added by: jose
+    user = null;
+    var isAllowed = new ITSD.Areas.ITSD.Models.tbl_AllowedToUpdate().ListUserJO(Model.ID).Exists(f => f.userID == UserID);
 }
 
 <div class="card">
@@ -21,11 +24,11 @@
                                 <th>Job Order No.</th>
                                 <td>@Model.IDDisplay &nbsp;
                                 <div class="btn-group">
-                                    @if (user.User.ID == Model.encBy)
+                                    @if (UserID == Model.encBy)
                                     {
                                         <a href="@Url.Action("EditAction", new { ID = Model.ID })" class="btn btn-sm btn-warning"><span class="fa fa-edit"></span></a>
                                     }
-                                    @if (user.Level == 1)
+                                    @if (Level == 1)
                                     {
                                         <a href="@Url.Action("Edit", new { id = Model.ID })" class="btn btn-sm btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
                                     }
@@ -62,7 +65,7 @@
             </div>
         </div>
         <div class="row row-cols-lg-auto g-1 align-items-center">
-            @if ((user.Level == 1 || user.Level == 2) || user.User.ID == Model.encBy || isAllowed)
+            @if ((Level == 1 || Level == 2) || UserID == Model.encBy || isAllowed)
             {
                 <div class="col">
                     <p>
@@ -96,7 +99,7 @@
                             <td>@Html.DisplayFor(modelItem => item.encByInfo.Info.Fullname)</td>
                             <td>@Html.FormatValue(item.encDate, "{0:MMM dd, yyyy}")</td>
                             <td>
-                                @if (item.encBy == user.User.ID)
+                                @if (item.encBy == UserID)
                                 {
                                     <div class="btn-group btn-group-sm">
                                         <a href="@Url.Action("EditStatus", new { id = item.ID })" class="btn btn-sm btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>

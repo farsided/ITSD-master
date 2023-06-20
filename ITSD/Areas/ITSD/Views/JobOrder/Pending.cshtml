@@ -4,6 +4,11 @@
     ViewBag.Title = "Pending";
     Layout = "~/Views/Shared/_Layout.cshtml";
     var user = new PMSRedirect.UserSessions();
+    //{ added by:jose
+    var Level = user.Level;
+    var ID = user.User.ID;
+    user = null;
+    //}
     var sr = new System.Web.Script.Serialization.JavaScriptSerializer();
     sr.MaxJsonLength = int.MaxValue;
 }
@@ -55,11 +60,11 @@
                             <td>
                                 <div class="btn-group btn-group-sm">
                                     <a href="@Url.Action("Edit", new { id = item.ID })" class="btn btn-sm btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-                                    @if ((user.Level == 1 || user.Level == 2) && item.Status == "Pending")
+                                    @if ((Level == 1 || Level == 2) && item.Status == "Pending")
                                     {
                                         <a href="@Url.Action("Action", new { id = item.ID })" class="btn btn-sm btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Take Action"><i class="fa fa-hand-o-right" aria-hidden="true"></i></a>
                                     }
-                                    @if (user.User.ID == item.encBy)
+                                    @if (ID == item.encBy)
                                     {
                                         <a href="@Url.Action("Cancelrequest", new { id = item.ID })" class="btn btn-sm btn-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="Cancel Request"><i class="fa fa-trash" aria-hidden="true"></i></a>
                                     }

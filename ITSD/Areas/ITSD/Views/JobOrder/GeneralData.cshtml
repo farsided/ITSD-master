@@ -2,6 +2,9 @@
 
 @{
     var user = new PMSRedirect.UserSessions();
+    var ID = user.User.ID;  //added by:jose
+    var Level = user.Level; //added by:jose
+    user = null;    //added by:jose
 }
 
 <table id="general" class="table table-sm table-hover table-striped">
@@ -24,7 +27,7 @@
             <tr>
                 <td class="align-middle">
                     <b>
-                        @if (item.encBy == user.User.ID)
+                        @if (item.encBy == ID)
                 {
                             <i class="fa fa-user-circle" aria-hidden="true"></i>
                         }
@@ -43,11 +46,11 @@
                 <td class="align-middle">@string.Format("{0}", item.ATID == 0 ? "N/A" : item.ATIDInfo.Info.Fullname)</td>
                 <td class="align-middle">
                     <div class="">
-                        @if (user.User.ID == item.encBy)
+                        @if (ID == item.encBy)
                         {
                             <a href="@Url.Action("Edit", new { id = item.ID })" class="btn btn-sm btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
                         }
-                        @if ((user.Level == 1 || user.Level == 2) && item.Status == "Pending")
+                        @if ((Level == 1 || Level == 2) && item.Status == "Pending")
                         {
                             <a href="@Url.Action("Action", new { id = item.ID })" class="btn btn-sm btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Take Action"><i class="fa fa-hand-o-right" aria-hidden="true"></i></a>
                         }
@@ -63,7 +66,7 @@
                                 }
                             </a>
                         }
-                        @if (user.User.ID == item.encBy)
+                        @if (ID == item.encBy)
                         {
                             <a href="@Url.Action("Cancelrequest", new { id = item.ID })" class="btn btn-sm btn-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="Cancel Request"><i class="fa fa-trash" aria-hidden="true"></i></a>
                         }

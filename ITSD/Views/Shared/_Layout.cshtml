@@ -1,11 +1,14 @@
 ﻿@{ 
     var session = new PMSRedirect.UserSessions();
+    string department = session.User.Info.department;
+    int? Level = session.Level;
+
     if (session.User == null)
     {
         HttpContext.Current.Response.Redirect("/");
     }
     var jo = new ITSD.Areas.ITSD.Models.tbl_JobOrder();
-
+    session = null;
     //var pendingcount = jo.List("", session.User.ID).Where(f => f.Status == "Pending" && (f.Cancel == false || f.Cancel == null)).Count();
     //var donecount = jo.List("", session.User.ID).Where(f => f.Status == "Done" && (f.Cancel == false || f.Cancel == null) && f.Approved == true).Count();
     //var progresscount = jo.List("", session.User.ID).Where(f => f.Status == "In progress" && (f.Cancel == false || f.Cancel == null) && f.Approved == true).Count();
@@ -14,11 +17,12 @@
 
     //debug
     jo.InitStatusCount();
-    var pendingcount = jo.PendingCount;
-    var donecount = jo.DoneCount;
-    var progresscount = jo.ProgressCount;
-    var generalcount = jo.GeneralCount;
-    var approvalcount = jo.ApprovalCount;
+    int pendingcount = jo.PendingCount;
+    int donecount = jo.DoneCount;
+    int progresscount = jo.ProgressCount;
+    int generalcount = jo.GeneralCount;
+    int approvalcount = jo.ApprovalCount;
+    jo = null;
 }
 <!DOCTYPE html>
 <html>
@@ -65,7 +69,7 @@
                             </li>
                         </ul>
                     </li>
-                    @if (session.Level == 1)
+                    @if (Level == 1)
                     {
                         <li class="nav-item dropdown">
                             <a class="nav-link active dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -84,13 +88,13 @@
                             <a class="nav-link active" aria-current="page" href="@Url.Action("ForApproval", "JobOrder", new { area = "ITSD" })"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i>&nbsp;For Approval&nbsp;<span style="font-size: 0.7rem;" class="badge bg-info rounded-pill">@approvalcount+</span></a>
                         </li>
                     }
-                    @if (session.Level == 3)
+                    @if (Level == 3)
                     {
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="@Url.Action("ForApproval", "JobOrder", new { area = "ITSD" })"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i>&nbsp;For Approval&nbsp;<span style="font-size: 0.7rem;" class="badge bg-info rounded-pill">@approvalcount+</span></a>
                         </li>
                     }
-                    @if (session.Level == 1 || session.Level == 2)
+                    @if (Level == 1 || Level == 2)
                     {
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="@Url.Action("MasterList", "JobOrder", new { area = "ITSD" })"><i class="fa fa-users" aria-hidden="true"></i>&nbsp;Records</a>
@@ -114,7 +118,7 @@
                         </li>
                     }
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="@Url.Action("DepartmentRequest", "JobOrder", new { area = "ITSD" })"><i class="fa fa-sitemap" aria-hidden="true"></i>&nbsp;@session.User.Info.department Request</a>
+                        <a class="nav-link active" aria-current="page" href="@Url.Action("DepartmentRequest", "JobOrder", new { area = "ITSD" })"><i class="fa fa-sitemap" aria-hidden="true"></i>&nbsp;@department Request</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="@Url.Action("Logout", "Home", new { area = "" })"><i class="fa fa-sign-out" aria-hidden="true"></i>&nbsp;Logout</a>

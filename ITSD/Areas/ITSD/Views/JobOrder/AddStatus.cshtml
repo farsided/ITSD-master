@@ -4,6 +4,8 @@
     ViewBag.Title = "Add Updates";
     Layout = "~/Views/Shared/_Layout.cshtml";
     var user = new PMSRedirect.UserSessions();
+    var Level = user.Level; //added by: jose
+    user = null; //added by: jose
     var jo = new ITSD.Areas.ITSD.Models.tbl_JobOrder().Find(Model.JOID);
 }
 
@@ -66,7 +68,7 @@
                         @Html.TextAreaFor(model => model.ActionTaken, 10, 10, new { @class = "form-control", placeholder = "Insert the description here" })
                         @Html.ValidationMessageFor(model => model.ActionTaken, "", new { @class = "text-danger" })
                     </div>
-                    @if (user.Level == 1 || user.Level == 2)
+                    @if (Level == 1 || Level == 2)
                     {
                         <div class="col-md-12">
                             @Html.Label("Status")

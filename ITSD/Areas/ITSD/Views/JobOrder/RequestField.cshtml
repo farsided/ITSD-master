@@ -2,6 +2,7 @@
 
 @{ 
     var sesssion = new PMSRedirect.UserSessions();
+    var Level = sesssion.Level;
 }
 
 <div class="col-md-12">
@@ -16,7 +17,7 @@
 </div>
 
 
-@if (sesssion.Level == 1)
+@if (Level == 1)
 {
     <div class="col-md-9">
         @Html.LabelFor(model => model.Company)
@@ -36,7 +37,6 @@ else
         @Html.ValidationMessageFor(model => model.Company, "", new { @class = "text-danger" })
     </div>
 }
-
 <div class="col-md-12">
     @Html.TextAreaFor(model => model.JobDescription,30, 10, new { @class = "form-control", placeholder = "Job Description" })
     @Html.ValidationMessageFor(model => model.JobDescription, "", new { @class = "text-danger" })
