@@ -20,7 +20,7 @@ namespace ITSD.Controllers
         void InitAdmin()
         {
 
-            user = new UserSessions(@"SERVER=192.168.0.101\sqlexpress;DATABASE=dbPMS;User=sa;pwd=1234");
+            user = new UserSessions(@"SERVER=JOSEITSD;DATABASE=dbPMS;User=sa;pwd=1234");
             //user = new UserSessions(@"SERVER=JOSEITSD;DATABASE=dbPMS;User=sa;pwd=1234");
             user.InitializeAdmin(576);
         }

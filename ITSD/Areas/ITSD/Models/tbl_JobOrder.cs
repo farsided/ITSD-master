@@ -230,7 +230,7 @@ namespace ITSD.Areas.ITSD.Models
             //});
 
             //debug jose
-            s.Query("SELECT AutoNo, fname, lname FROM dbo.GeneralEIS()").ForEach(r =>
+            s.Query("SELECT AutoNo, fname, mn, lname FROM dbo.GeneralEIS()").ForEach(r =>
             {
                 EISList.Add(new { AutoNo = $"{r["AutoNo"]}", Fullname = $"{r["fname"]} {r["mn"]} {r["lname"]}" });
             });
