@@ -22,7 +22,7 @@ namespace ITSD.Controllers
 
             user = new UserSessions(@"SERVER=JOSEITSD;DATABASE=dbPMS;User=sa;pwd=1234");
             //user = new UserSessions(@"SERVER=JOSEITSD;DATABASE=dbPMS;User=sa;pwd=1234");
-            user.InitializeAdmin(576);
+            user.InitializeAdmin(477);
         }
 
         public ActionResult Redirect()

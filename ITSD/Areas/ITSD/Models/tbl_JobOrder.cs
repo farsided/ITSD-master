@@ -28,6 +28,10 @@ namespace ITSD.Areas.ITSD.Models
         [Required]
         public String Company { get; set; }
 
+        [Display(Name = "JO Department")]
+        [Required]
+        public int JODepartmentID { get; set; }
+
         [Display(Name = "Job Description")]
         [DataType(DataType.Html)]
         [Required]
@@ -153,7 +157,9 @@ namespace ITSD.Areas.ITSD.Models
         {
             var actions = new tbl_JobActionTaken().List();
             uList = session.User.List();
-            s.Query("tbl_JobOrder_List", p => { p.Add("@Search", $"%%"); p.Add("@encBy", 576); }, CommandType.StoredProcedure).ForEach(r =>
+            //@encby = session user
+            //@JODepartmentID = jo receiving department
+            s.Query("tbl_JobOrder_List", p => { p.Add("@Search", $"%%"); p.Add("@encBy", 576); p.Add("@JODepartmentID", 4); }, CommandType.StoredProcedure).ForEach(r =>
             {
                 var item = new tbl_JobOrder(r);
                 //item.obj_RequestedBy = userList.Find(f => f.Info?.AutoNo == item.RequestedBy);
@@ -176,7 +182,7 @@ namespace ITSD.Areas.ITSD.Models
                 }
             });
 
-            s.Query("tbl_JobOrder_List", p => { p.Add("@Search", $"%%"); }, CommandType.StoredProcedure).ForEach(r =>
+            s.Query("tbl_JobOrder_List", p => { p.Add("@Search", $"%%"); p.Add("@JODepartmentID", 4); }, CommandType.StoredProcedure).ForEach(r =>
             {
                 var item = new tbl_JobOrder(r);
                 //item.obj_RequestedBy = userList.Find(f => f.Info?.AutoNo == item.RequestedBy);
@@ -251,7 +257,7 @@ namespace ITSD.Areas.ITSD.Models
         {
             var list = new List<tbl_JobOrder>();
             var actions = new tbl_JobActionTaken().List();
-            s.Query("tbl_JobOrder_List", p => { p.Add("@Search", $"%{Search}%"); p.Add("@encBy", encBy); }, CommandType.StoredProcedure).ForEach(r =>
+            s.Query("tbl_JobOrder_List", p => { p.Add("@Search", $"%{Search}%"); p.Add("@encBy", encBy); p.Add("@JODepartmentID", 4); }, CommandType.StoredProcedure).ForEach(r =>
             {
                 var item = new tbl_JobOrder(r);
                 item.obj_RequestedBy = userList != null ? userList.Find(f => f.Info?.AutoNo == item.RequestedBy) : ( (userList = session.User.List()).Find(f => f.Info?.AutoNo == item.RequestedBy));
