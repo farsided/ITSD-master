@@ -305,6 +305,7 @@ namespace ITSD.Areas.ITSD.Models
                 {
                     p.Add("@Title", obj.Title);
                     p.Add("@Company", obj.Company);
+                    p.Add("@JODepartmentID", obj.JODepartmentID);   //debug
                     p.Add("@JobDescription", obj.JobDescription);
                     p.Add("@JDate", obj.JDate);
                     p.Add("@RequestedBy", obj.RequestedBy);
@@ -330,6 +331,7 @@ namespace ITSD.Areas.ITSD.Models
             s.Query("tbl_JobOrder_Update", p =>
             {
                 p.Add("@ID", obj.ID);
+                p.Add("@JODepartmentID", obj.JODepartmentID);   //debug
                 p.Add("@Title", obj.Title);
                 p.Add("@Company", obj.Company);
                 p.Add("@JobDescription", obj.JobDescription);

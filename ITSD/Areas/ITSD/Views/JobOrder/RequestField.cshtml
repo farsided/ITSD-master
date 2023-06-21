@@ -38,7 +38,7 @@ else
     </div>
 }
 <div class="col-md-12">
-    @Html.TextAreaFor(model => model.JobDescription,30, 10, new { @class = "form-control", placeholder = "Job Description" })
+    @Html.TextAreaFor(model => model.JobDescription, 8 , 10, new { @class = "form-control", placeholder = "Job Description" })
     @Html.ValidationMessageFor(model => model.JobDescription, "", new { @class = "text-danger" })
 </div>
 
@@ -47,4 +47,3 @@ else
     @Html.DropDownListFor(model => model.RequestedBy, new ITSD.Areas.ITSD.Models.tbl_JobOrder().GeneralEIS(), new { @class = "form-select" } )
     @Html.ValidationMessageFor(model => model.RequestedBy, "", new { @class = "text-danger" })
 </div>
-

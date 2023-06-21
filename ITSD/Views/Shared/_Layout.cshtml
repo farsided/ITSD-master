@@ -48,9 +48,9 @@
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="@Url.Action("General", "JobOrder", new { area = "ITSD" })"><i class="fa fa-globe" aria-hidden="true"></i>&nbsp;Job Order&nbsp;<span style="font-size: 0.7rem;" class="badge bg-secondary rounded-pill generalcount">@generalcount+</span></a>
                     </li>
-                    <li class="nav-item">
+                    @*<li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="@Url.Action("Index", "Schedule", new { area = "ITSD" })"><i class="fa fa-calendar-check-o" aria-hidden="true"></i>&nbsp;Borrow Sched</a>
-                    </li>
+                    </li>*@
                     <li class="nav-item dropdown">
                         <a class="nav-link active dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="fa fa-user-circle-o" aria-hidden="true"></i>&nbsp;My Request
@@ -119,7 +119,7 @@
                         </li>
                     }
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="@Url.Action("DepartmentRequest", "JobOrder", new { area = "ITSD" })"><i class="fa fa-sitemap" aria-hidden="true"></i>&nbsp;@department Request</a>
+                        <a class="nav-link active" aria-current="page" href="@Url.Action("DepartmentRequest", "JobOrder", new { area = "ITSD" })"><i class="fa fa-folder" aria-hidden="true"></i>&nbsp;@department Request</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="@Url.Action("Logout", "Home", new { area = "" })"><i class="fa fa-sign-out" aria-hidden="true"></i>&nbsp;Logout</a>
