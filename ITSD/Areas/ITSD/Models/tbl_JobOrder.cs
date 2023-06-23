@@ -30,7 +30,7 @@ namespace ITSD.Areas.ITSD.Models
 
         [Display(Name = "JO Department")]
         [Required]
-        public int JODepartmentID { get; set; }
+        public int JODepartmentID { get; set; }     //added by:jose
 
         [Display(Name = "Job Description")]
         [DataType(DataType.Html)]
@@ -300,6 +300,22 @@ namespace ITSD.Areas.ITSD.Models
             }
             else
             {
+                {   //debug
+                    var output = new tbl_JobOrder();
+                    var actions = new tbl_JobActionTaken().List();
+                    var listuser = session.User.List();
+                    s.Query("tbl_JobOrder_Find", p => p.Add("@ID", ID), CommandType.StoredProcedure).ForEach(r =>
+                    {
+                        var item = new tbl_JobOrder(r);
+                        item.obj_RequestedBy = listuser.Find(f => f.Info?.AutoNo == item.RequestedBy);
+                        item.Actions = actions.Where(f => f.JOID == item.ID).ToList();
+                        item.ATIDInfo = listuser.Find(f => f.ID == item.ATID);
+                        item.ApprovedInfo = listuser.Find(f => f.ID == item.ApprovedBy);
+                        item.CancelInfo = listuser.Find(f => f.ID == item.CancelBy);
+                        item.encByInfo = listuser.Find(f => f.ID == item.encBy);
+                        output = item;
+                    });
+                }
                 int latestID = 0;
                 s.Query("tbl_JobOrder_Create", p =>
                 {

@@ -12,22 +12,26 @@
 </style>
 
 <div class="container">
-    <section style="background-color:lightcyan;">
-        <div class="row p-5">
+    <section style="color:white; background-image:url('/Content/img/metal wallpaper.jpg'); background-size:cover; background-repeat:no-repeat; ">
+        @*<img src="~/Content/img/metal wallpaper.jpg" alt="Alternate Text" class="rounded-4 " width="100%" />*@
+        <div class="row p-5 g-2">
             <div class="col-md-6 text-center">
                 <img src="~/Content/img/logo/ESD LOGO.png" alt="Alternate Text" class="rounded-pill" width="65%" />
             </div>
             <div class="col-md-6">
+                
                 <div class="d-flex">
-                    <div class="align-middle">
-                        <h1><b>ENGINEERING SERVICES DEPARTMENT</b></h1>
-                        @*<p class="lead">Information technology professionals study, design, develop, implement, support, and manage computer-based information systems, including both software applications and computer hardware.</p>*@
+                    
+                    <div style="background-color:black; opacity:0.75;" class="rounded-5 p-4 mb-2">
+                        <h1>
+                            <b>ENGINEERING SERVICES DEPARTMENT</b>
+                        </h1>
                         <p class="lead">Engineering professionals study, design, develop, implement, support, and manage computer-based information systems, including both software applications and computer hardware.</p>
-
-                        @Html.ActionLink("Request Job Order", "Create", "JobOrder", new { area = "ITSD" }, new { @class = "btn btn-success" })
-                        @*@Html.ActionLink("Report", "Print", "JobOrder", new { area = "ITSD" }, new { @class = "btn btn-success", target = "_blank" })*@
-                     </div>
+                    </div>
                 </div>
+                @Html.ActionLink("Request Job Order", "Create", "JobOrder", new { area = "ITSD" }, new { @class = "btn btn-success" })
+                @*@Html.ActionLink("Report", "Print", "JobOrder", new { area = "ITSD" }, new { @class = "btn btn-success", target = "_blank" })*@
+
             </div>
         </div>
     </section>

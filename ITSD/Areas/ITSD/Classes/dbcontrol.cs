@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace ITSD.Areas.ITSD.Classes
 {
@@ -17,5 +18,23 @@ namespace ITSD.Areas.ITSD.Classes
         {
             throw new Exception(e.ExceptionMessage);
         }
+    }
+
+    public class Authothorized : AuthorizeAttribute
+    {
+        public override void OnAuthorization(AuthorizationContext filterContext)
+        {
+            base.OnAuthorization(filterContext);
+        }
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+        
+        protected override bool AuthorizeCore(HttpContextBase httpContext)
+        {
+            return base.AuthorizeCore(httpContext);
+        }
+
     }
 }
